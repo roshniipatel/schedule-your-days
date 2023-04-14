@@ -25,7 +25,7 @@
 
 $(document).ready(function () {
 
-  var hour9 = $('#09').find(".description"); // var hour9 = $('text-09');
+  var hour9 = $('#09').find(".description"); 
   var hour10 = $('#10').find(".description");
   var hour11 = $('#11').find(".description");
   var hour12 = $('#12').find(".description");
@@ -35,7 +35,8 @@ $(document).ready(function () {
   var hour16 = $('#16').find(".description");
   var hour17 = $("#17").find(".description");
 
-  hour9.val(localStorage.getItem("9:00AM"));
+  // so that it saves and doesn't go away when loaded
+  hour9.val(localStorage.getItem("9:00AM"));  
   hour10.val(localStorage.getItem("10:00AM"));
   hour11.val(localStorage.getItem("11:00AM"));
   hour12.val(localStorage.getItem("12:00PM"));
@@ -61,19 +62,23 @@ $(document).ready(function () {
     });
 
     function updateTime() {
-      var now = dayjs(); // Use dayjs() instead of new Date()
+      var now = dayjs(); 
       var dateString = now.format("dddd, MMM D, YYYY, h:mm a"); // Use dayjs format() method to format date
       $("#currentDay").text(dateString);
 
       // Loop through each time slot and compare its time with the current time
       $(".time-block").each(function () {
-        var time = dayjs($(this).attr("id"), "hA"); // Parse the time slot's time using dayjs()
-        if (time.isBefore(now, "hour")) { // Check if the time slot is in the past
-          $(this).addClass("past").removeClass("present future");
-        } else if (time.isSame(now, "hour")) { // Check if the time slot is the present hour
-          $(this).addClass("present").removeClass("past future");
-        } else { // Otherwise, the time slot must be in the future
-          $(this).addClass("future").removeClass("past present");
+        var time = dayjs($(this).attr("id"), "hA"); 
+        var hour = parseInt($(this).attr('id').split('-')[1]);
+
+        console.log(typeof (hour));
+              
+        if (time.isBefore(now, "hour")) { 
+          $(this).addClass("past");
+        } else if (time.isSame(now, "hour")) { 
+          $(this).addClass("present");
+        } else { 
+          $(this).addClass("future");
         }
       });
     }
