@@ -1,7 +1,7 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+// $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -20,4 +20,69 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+// });
+
+
+$(document).ready(function () {
+
+  var hour9 = $('#09').find(".description"); // var hour9 = $('text-09');
+  var hour10 = $('#10').find(".description");
+  var hour11 = $('#11').find(".description");
+  var hour12 = $('#12').find(".description");
+  var hour13 = $('#13').find(".description");
+  var hour14 = $('#14').find(".description");
+  var hour15 = $('#15').find(".description");
+  var hour16 = $('#16').find(".description");
+  var hour17 = $("#17").find(".description");
+
+  hour9.val(localStorage.getItem("9:00AM"));
+  hour10.val(localStorage.getItem("10:00AM"));
+  hour11.val(localStorage.getItem("11:00AM"));
+  hour12.val(localStorage.getItem("12:00PM"));
+  hour13.val(localStorage.getItem("1:00PM"));
+  hour14.val(localStorage.getItem("2:00PM"));
+  hour15.val(localStorage.getItem("3:00PM"));
+  hour16.val(localStorage.getItem("4:00PM"));
+  hour17.val(localStorage.getItem("5:00PM"));
+
+  $(function () {
+
+    $(".saveBtn").click(function () {
+
+      localStorage.setItem("9:00AM", hour9.val());
+      localStorage.setItem("10:00AM", hour10.val());
+      localStorage.setItem("11:00AM", hour11.val());
+      localStorage.setItem("12:00PM", hour12.val());
+      localStorage.setItem("1:00PM", hour13.val());
+      localStorage.setItem("2:00PM", hour14.val());
+      localStorage.setItem("3:00PM", hour15.val());
+      localStorage.setItem("4:00PM", hour16.val());
+      localStorage.setItem("5:00PM", hour17.val());
+    });
+
+    function updateTime() {
+      var now = dayjs(); // Use dayjs() instead of new Date()
+      var dateString = now.format("dddd, MMM D, YYYY, h:mm a"); // Use dayjs format() method to format date
+      $("#currentDay").text(dateString);
+
+      // Loop through each time slot and compare its time with the current time
+      $(".time-block").each(function () {
+        var time = dayjs($(this).attr("id"), "hA"); // Parse the time slot's time using dayjs()
+        if (time.isBefore(now, "hour")) { // Check if the time slot is in the past
+          $(this).addClass("past").removeClass("present future");
+        } else if (time.isSame(now, "hour")) { // Check if the time slot is the present hour
+          $(this).addClass("present").removeClass("past future");
+        } else { // Otherwise, the time slot must be in the future
+          $(this).addClass("future").removeClass("past present");
+        }
+      });
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000); // Call updateTime() every second
+
+  });
+
 });
+
+
