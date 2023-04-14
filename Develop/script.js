@@ -35,7 +35,7 @@ $(document).ready(function () {
   var hour16 = $('#16').find(".description");
   var hour17 = $("#17").find(".description");
 
-  // so that it saves and doesn't go away when loaded
+  // so that it saves the data and doesn't go away when loaded
   hour9.val(localStorage.getItem("9:00AM"));  
   hour10.val(localStorage.getItem("10:00AM"));
   hour11.val(localStorage.getItem("11:00AM"));
@@ -63,15 +63,15 @@ $(document).ready(function () {
 
     function updateTime() {
       var now = dayjs(); 
-      var dateString = now.format("dddd, MMM D, YYYY, h:mm a"); // Use dayjs format() method to format date
-      $("#currentDay").text(dateString);
+      var currentDate = now.format('[Current Date & Time:] MMM DD, YYYY [ at ] hh:mm:ss a'); 
+      $("#currentDay").text(currentDate);
 
       // Loop through each time slot and compare its time with the current time
       $(".time-block").each(function () {
         var time = dayjs($(this).attr("id"), "hA"); 
         var hour = parseInt($(this).attr('id').split('-')[1]);
-
-        console.log(typeof (hour));
+        
+        // console.log(typeof (hour));
               
         if (time.isBefore(now, "hour")) { 
           $(this).addClass("past");
@@ -89,5 +89,6 @@ $(document).ready(function () {
   });
 
 });
+
 
 
