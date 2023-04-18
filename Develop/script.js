@@ -36,32 +36,33 @@ $(document).ready(function () {
       localStorage.setItem("5:00PM", hour17.val());
     });
 
+    // time updates by the second
     function updateTime() {
       var now = dayjs();
       var date = now.format('[Current Date & Time:] MMM DD, YYYY [ at ] hh:mm:ss a');
       $("#currentDay").text(date);
 
       $(".time-block").each(function () {
-        var time = dayjs($(this).attr("id"), "hA");
-        var hour = parseInt($(this).attr('id').split('-')[1]);
+        var hour = dayjs().format("HH");
+        var time = parseInt($(this).attr("id"));
 
-        localStorage.setItem(time, hour);
-        
-        if (time.hour() < now.hour()) {
+        // so the color change can occur regarding different time
+        if (time < hour) {
+          $(this).removeClass("present", "future");
           $(this).addClass("past");
-        } else if (time.hour() === now.hour()) {
-          $(this).addClass("present");
-        } else {
+        } else if (time > hour) {
+          $(this).removeClass("past", "present");
           $(this).addClass("future");
+        } else {
+          $(this).removeClass("past", "future");
+          $(this).addClass("present");
         }
-
       });
     }
 
     updateTime();
-    setInterval(updateTime, 1000); // Call updateTime() every second
+    setInterval(updateTime, 1000); // call updateTime() every second
 
   });
 
 });
-
