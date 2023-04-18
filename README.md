@@ -14,7 +14,7 @@ The only thing you have to do is click on the link below and it will take you to
 
 Repository: https://github.com/roshniipatel
 
-Github Page: 
+Github Page: https://roshniipatel.github.io/schedule-your-days/ 
 
 ## Acknowledgements 
 
